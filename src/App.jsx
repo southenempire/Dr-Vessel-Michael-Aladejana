@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 // Data declarations matching the exact content of the reference site
 const nav = [
@@ -283,9 +283,183 @@ const socials = [
   }
 ];
 
+function Interactive3DCanvas() {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    let animationFrameId;
+    
+    // Parent sizing
+    let width = (canvas.width = canvas.parentElement.offsetWidth || 400);
+    let height = (canvas.height = canvas.parentElement.offsetHeight || 400);
+
+    const points = [];
+    const numPoints = 135;
+    const radius = Math.min(width, height) * 0.38;
+
+    // Generate points on a sphere using Fibonacci spiral for uniform spacing
+    for (let i = 0; i < numPoints; i++) {
+      const phi = Math.acos(-1 + (2 * i) / numPoints);
+      const theta = Math.sqrt(numPoints * Math.PI) * phi;
+      points.push({
+        x: radius * Math.cos(theta) * Math.sin(phi),
+        y: radius * Math.sin(theta) * Math.sin(phi),
+        z: radius * Math.cos(phi)
+      });
+    }
+
+    let angleX = 0.0015;
+    let angleY = 0.002;
+    let targetRotationX = 0.0015;
+    let targetRotationY = 0.002;
+
+    const handleMouseMove = (e) => {
+      // Rotate based on general mouse position relative to window center
+      const x = e.clientX - window.innerWidth / 2;
+      const y = e.clientY - window.innerHeight / 2;
+      targetRotationX = y * 0.000015;
+      targetRotationY = x * 0.000015;
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+
+    const handleResize = () => {
+      if (!canvas) return;
+      width = canvas.width = canvas.parentElement.offsetWidth || 400;
+      height = canvas.height = canvas.parentElement.offsetHeight || 400;
+    };
+    window.addEventListener("resize", handleResize);
+
+    const project = (x, y, z) => {
+      const fov = 450;
+      const distance = 400;
+      const scale = fov / (distance + z);
+      return {
+        x: width / 2 + x * scale,
+        y: height / 2 + y * scale,
+        scale: scale
+      };
+    };
+
+    const rotateX = (point, angle) => {
+      const cos = Math.cos(angle);
+      const sin = Math.sin(angle);
+      const y = point.y * cos - point.z * sin;
+      const z = point.y * sin + point.z * cos;
+      point.y = y;
+      point.z = z;
+    };
+
+    const rotateY = (point, angle) => {
+      const cos = Math.cos(angle);
+      const sin = Math.sin(angle);
+      const x = point.x * cos + point.z * sin;
+      const z = -point.x * sin + point.z * cos;
+      point.x = x;
+      point.z = z;
+    };
+
+    const draw = () => {
+      if (!canvas || !ctx) return;
+      ctx.clearRect(0, 0, width, height);
+
+      // Dampen rotation transition for smoothness
+      angleX += (targetRotationX - angleX) * 0.05;
+      angleY += (targetRotationY - angleY) * 0.05;
+
+      points.forEach((p) => {
+        rotateX(p, angleX);
+        rotateY(p, angleY);
+      });
+
+      // Sort points by depth (z) to fade background lines
+      const sorted = [...points].sort((a, b) => b.z - a.z);
+
+      // Render wireframe lines
+      ctx.strokeStyle = "rgba(184, 148, 63, 0.08)"; // Very subtle gold
+      ctx.lineWidth = 0.5;
+      for (let i = 0; i < sorted.length; i++) {
+        const p1 = project(sorted[i].x, sorted[i].y, sorted[i].z);
+        for (let j = i + 1; j < sorted.length; j++) {
+          const dx = sorted[i].x - sorted[j].x;
+          const dy = sorted[i].y - sorted[j].y;
+          const dz = sorted[i].z - sorted[j].z;
+          const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+          // Only draw lines between nearby nodes
+          if (dist < radius * 0.45) {
+            const p2 = project(sorted[j].x, sorted[j].y, sorted[j].z);
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Render nodes
+      sorted.forEach((p) => {
+        const proj = project(p.x, p.y, p.z);
+        const alpha = Math.max(0.08, (p.z + radius) / (2 * radius));
+        ctx.fillStyle = `rgba(212, 168, 83, ${alpha * 0.6})`; // Gold nodes fading in distance
+        ctx.beginPath();
+        ctx.arc(proj.x, proj.y, Math.max(1, proj.scale * 2.2), 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      animationFrameId = requestAnimationFrame(draw);
+    };
+
+    draw();
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{
+        width: "100%",
+        height: "100%",
+        position: "absolute",
+        top: 0,
+        left: 0,
+        pointerEvents: "none",
+        zIndex: 1
+      }}
+    />
+  );
+}
+
 export default function App() {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  // Dynamic 3D tilt hover handlers
+  const handleCardTilt = (e) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const xc = rect.width / 2;
+    const yc = rect.height / 2;
+    // Cap tilt angle at 8 degrees
+    const rotateX = ((yc - y) / yc) * 8;
+    const rotateY = ((x - xc) / xc) * 8;
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+  };
+
+  const handleCardReset = (e) => {
+    const card = e.currentTarget;
+    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+  };
   const [activeRole, setActiveRole] = useState("Pastor");
   const [manualActiveRole, setManualActiveRole] = useState(null);
   const [mediaTab, setMediaTab] = useState("sermons");
@@ -437,10 +611,12 @@ export default function App() {
         </div>
         <div className="hero-right">
           <div className="hero-img-wrap">
-            <div className="hero-img-placeholder">
-              <p className="hero-img-note">
-                Add your portrait here.<br />Recommended: full-length, professional.
-              </p>
+            <div className="hero-img-placeholder" style={{ position: "relative", overflow: "hidden" }}>
+              <Interactive3DCanvas />
+              <div className="hero-img-note" style={{ zIndex: 2, position: "relative" }}>
+                Add your portrait here.<br />
+                Recommended: full-length, professional.
+              </div>
             </div>
             <div className="hero-img-overlay"></div>
           </div>
@@ -473,7 +649,9 @@ export default function App() {
       </div>
 
       {/* About Section */}
-      <section className="site-section about" id="about">
+      <section className="site-section about" id="about" style={{ position: "relative", overflow: "hidden" }}>
+        <div className="floating-bg-shape" style={{ top: "8%", left: "4%", fontSize: "3rem", color: "var(--gold)" }}>✦</div>
+        <div className="floating-bg-shape" style={{ bottom: "12%", right: "6%", fontSize: "4.5rem", color: "var(--burgundy)", animationDelay: "-4s" }}>✦</div>
         <div className="reveal">
           <div className="s-eyebrow">
             <div className="s-line"></div>
@@ -559,7 +737,9 @@ export default function App() {
       </section>
 
       {/* Platforms Section */}
-      <section className="site-section platforms" id="platforms">
+      <section className="site-section platforms" id="platforms" style={{ position: "relative", overflow: "hidden" }}>
+        <div className="floating-bg-shape" style={{ top: "15%", right: "8%", fontSize: "3.5rem", color: "var(--gold)", animationDelay: "-8s" }}>✦</div>
+        <div className="floating-bg-shape" style={{ bottom: "10%", left: "5%", fontSize: "4rem", color: "var(--burgundy)", animationDelay: "-2s" }}>✦</div>
         <div className="platforms-header">
           <div className="reveal">
             <div className="s-eyebrow">
@@ -582,6 +762,8 @@ export default function App() {
             className="platform-card dark"
             target="_blank"
             rel="noopener noreferrer"
+            onMouseMove={handleCardTilt}
+            onMouseLeave={handleCardReset}
           >
             <span className="platform-tag">Corporate · Advisory · Strategy</span>
             <div className="platform-name">Ascentry<br />Advisory</div>
@@ -597,6 +779,8 @@ export default function App() {
             className="platform-card light"
             target="_blank"
             rel="noopener noreferrer"
+            onMouseMove={handleCardTilt}
+            onMouseLeave={handleCardReset}
           >
             <span className="platform-tag">Leadership · Development · Purpose</span>
             <div className="platform-name">The Foundry<br />Leadership Institute</div>
@@ -672,7 +856,12 @@ export default function App() {
         </div>
         <div className="events-grid reveal">
           {events.map((evt, idx) => (
-            <div className="event-card" key={idx}>
+            <div
+              className="event-card"
+              key={idx}
+              onMouseMove={handleCardTilt}
+              onMouseLeave={handleCardReset}
+            >
               <div className="event-top">
                 <div className="event-date">{evt.date}</div>
                 <span className="event-badge">{evt.badge}</span>
@@ -833,7 +1022,12 @@ export default function App() {
 
         <div className="shop-grid reveal">
           {products.map((prod, idx) => (
-            <div className="product-card" key={idx}>
+            <div
+              className="product-card"
+              key={idx}
+              onMouseMove={handleCardTilt}
+              onMouseLeave={handleCardReset}
+            >
               <div className="product-cover" style={{ position: "relative" }}>
                 <div style={{ position: "absolute", inset: 0, background: prod.coverBg }}></div>
                 {prod.badge && <span className="product-badge">{prod.badge}</span>}
@@ -928,6 +1122,8 @@ export default function App() {
               key={idx}
               target="_blank"
               rel="noopener noreferrer"
+              onMouseMove={handleCardTilt}
+              onMouseLeave={handleCardReset}
             >
               <div className="social-icon-bg">
                 <span className="social-icon">{soc.icon}</span>
