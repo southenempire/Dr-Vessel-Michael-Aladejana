@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import portraitImg from "./assets/portrait.png";
 
 // Data declarations matching the exact content of the reference site
 const nav = [
@@ -248,19 +249,6 @@ const socials = [
   {
     icon: (
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-        <rect x="2" y="9" width="4" height="12"></rect>
-        <circle cx="4" cy="4" r="2"></circle>
-      </svg>
-    ),
-    name: "LinkedIn",
-    handle: "Dr. Vessel Michael Aladejana",
-    cta: "Connect",
-    href: "https://linkedin.com"
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
         <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
       </svg>
@@ -279,8 +267,9 @@ const socials = [
     name: "TikTok",
     handle: "@pst.michaelmotcha",
     cta: "Follow",
-    href: "https://tiktok.com"
+    href: "https://www.tiktok.com/@pst.michaelmotcha?_r=1&_t=ZT-96UurXLzM0k"
   }
+
 ];
 
 function Interactive3DCanvas() {
@@ -613,13 +602,26 @@ export default function App() {
           <div className="hero-img-wrap">
             <div className="hero-img-placeholder" style={{ position: "relative", overflow: "hidden" }}>
               <Interactive3DCanvas />
-              <div className="hero-img-note" style={{ zIndex: 2, position: "relative" }}>
-                Add your portrait here.<br />
-                Recommended: full-length, professional.
-              </div>
+              <img
+                src={portraitImg}
+                alt="Dr. Vessel Michael Aladejana"
+                className="hero-portrait-img"
+                style={{
+                  position: "absolute",
+                  bottom: 0,
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  height: "100%",
+                  width: "auto",
+                  objectFit: "contain",
+                  zIndex: 2,
+                  pointerEvents: "none"
+                }}
+              />
             </div>
-            <div className="hero-img-overlay"></div>
+            <div className="hero-img-overlay" style={{ zIndex: 3 }}></div>
           </div>
+
           <div className="hero-caption">
             <div className="hero-caption-name">Dr. Vessel Michael Aladejana</div>
             <div className="hero-caption-title">Pastor · Advisor · Author · Speaker · Founder</div>
@@ -1355,20 +1357,16 @@ export default function App() {
                 </a>
               </li>
               <li>
-                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
-                  LinkedIn
-                </a>
-              </li>
-              <li>
                 <a href="https://youtube.com/@pst.michaelmotcha?si=hFDZILnN7234indR" target="_blank" rel="noopener noreferrer">
                   YouTube
                 </a>
               </li>
               <li>
-                <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.tiktok.com/@pst.michaelmotcha?_r=1&_t=ZT-96UurXLzM0k" target="_blank" rel="noopener noreferrer">
                   TikTok
                 </a>
               </li>
+
             </ul>
           </div>
           <div>
