@@ -1,1 +1,88 @@
-/* Blanked out to avoid conflicts with index.css */
+/* ─── Contact Type Selector Cards ─── */
+.contact-type-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.contact-type-card {
+  background: rgba(247, 243, 238, 0.06);
+  border: 1px solid rgba(247, 243, 238, 0.12);
+  padding: 2.5rem 2rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  color: inherit;
+}
+
+.contact-type-card:hover {
+  background: rgba(247, 243, 238, 0.1);
+  border-color: var(--light-gold);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+}
+
+.contact-type-icon {
+  font-family: var(--serif);
+  color: var(--light-gold);
+  font-size: 2rem;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.contact-type-title {
+  font-family: var(--serif);
+  color: var(--ivory);
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.contact-type-desc {
+  color: rgba(247, 243, 238, 0.55);
+  font-size: 0.85rem;
+  line-height: 1.65;
+  font-weight: 300;
+}
+
+.contact-type-cta {
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--light-gold);
+  font-size: 0.72rem;
+  font-weight: 500;
+  margin-top: 0.5rem;
+  transition: letter-spacing 0.2s;
+}
+
+.contact-type-card:hover .contact-type-cta {
+  letter-spacing: 0.18em;
+}
+
+/* ─── Back Button ─── */
+.contact-back-btn {
+  background: none;
+  border: none;
+  color: rgba(247, 243, 238, 0.5);
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  font-weight: 400;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 1.5rem;
+  transition: color 0.2s;
+  letter-spacing: 0.04em;
+}
+
+.contact-back-btn:hover {
+  color: var(--light-gold);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 1100px) {
+  .contact-type-grid {
+    grid-template-columns: 1fr;
+  }
+}

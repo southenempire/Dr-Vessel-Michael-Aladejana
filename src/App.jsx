@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import portraitImg from "./assets/portrait.png";
+import "./App.css";
 
 // Data declarations matching the exact content of the reference site
 const nav = [
@@ -7,7 +8,7 @@ const nav = [
   { label: "Ministry", href: "#ministry" },
   { label: "Work", href: "#platforms" },
   { label: "Speaking", href: "#speaking" },
-  { label: "Shop", href: "#shop" },
+  { label: "Shop", href: "/books" },
   { label: "Media", href: "#media" },
   { label: "Connect", href: "#connect" }
 ];
@@ -453,6 +454,7 @@ export default function App() {
   const [manualActiveRole, setManualActiveRole] = useState(null);
   const [mediaTab, setMediaTab] = useState("sermons");
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [contactType, setContactType] = useState(null); // null = show cards, "ministry" = show form
 
   // Auto-cycle hero roles (moving the brown active background across the badges)
   useEffect(() => {
@@ -519,9 +521,36 @@ export default function App() {
     }));
   };
 
-  const handleFormSubmit = (e) => {
+  // ─── Google Forms Config (placeholder) ───
+  // Replace these with your actual Google Form URL and entry IDs
+  const GOOGLE_FORM_CONFIG = {
+    actionUrl: "https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse",
+    fields: {
+      firstName: "entry.XXXXXXXXXX",
+      lastName: "entry.XXXXXXXXXX",
+      email: "entry.XXXXXXXXXX",
+      organisation: "entry.XXXXXXXXXX",
+      enquiry: "entry.XXXXXXXXXX",
+      message: "entry.XXXXXXXXXX"
+    }
+  };
+
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    // Simulate successful form submission
+    // Build Google Forms submission data
+    const body = new FormData();
+    Object.entries(GOOGLE_FORM_CONFIG.fields).forEach(([key, entryId]) => {
+      body.append(entryId, formData[key]);
+    });
+    try {
+      await fetch(GOOGLE_FORM_CONFIG.actionUrl, {
+        method: "POST",
+        body,
+        mode: "no-cors" // Google Forms doesn't return CORS headers
+      });
+    } catch (_) {
+      // no-cors requests always succeed from the browser's perspective
+    }
     setFormSubmitted(true);
   };
 
@@ -600,7 +629,7 @@ export default function App() {
         </div>
         <div className="hero-right">
           <div className="hero-img-wrap">
-            <div className="hero-img-placeholder" style={{ position: "relative", overflow: "hidden" }}>
+            <div className="hero-img-placeholder" style={{ position: "relative", overflow: "hidden", background: "linear-gradient(145deg, #8a3a4e, #5c2235, #3a1520)" }}>
               <Interactive3DCanvas />
               <img
                 src={portraitImg}
@@ -608,9 +637,10 @@ export default function App() {
                 className="hero-portrait-img"
                 style={{
                   position: "absolute",
-                  bottom: 0,
+                  bottom: "-12%",
                   left: "50%",
-                  transform: "translateX(-50%)",
+                  transform: "translateX(-50%) scale(1.35)",
+                  transformOrigin: "center bottom",
                   height: "100%",
                   width: "auto",
                   objectFit: "contain",
@@ -1000,105 +1030,20 @@ export default function App() {
         </div>
       </section>
 
-      {/* Shop Section */}
+      {/* Shop Teaser — Full catalogue at /books */}
       <section className="site-section shop" id="shop">
-        <div className="shop-header reveal">
-          <div>
-            <div className="s-eyebrow">
-              <div className="s-line"></div>
-              <span className="s-tag">Books &amp; Products</span>
-            </div>
-            <h2 className="s-title">
-              Words that<br /><em>stay with you.</em>
-            </h2>
+        <div className="reveal" style={{ textAlign: "center", maxWidth: "640px", margin: "0 auto" }}>
+          <div className="s-eyebrow" style={{ justifyContent: "center" }}>
+            <div className="s-line"></div>
+            <span className="s-tag">Books &amp; Products</span>
           </div>
-          <div>
-            <p style={{ fontSize: ".95rem", color: "var(--muted)", lineHeight: "1.85", marginBottom: "1.25rem" }}>
-              Every product was built to do one thing — move you further along the journey from where you are to where you were designed to be.
-            </p>
-            <div className="shop-note">
-              <strong>Digital books</strong> are delivered instantly to your inbox after purchase via Gumroad. <strong>Physical copies</strong> are fulfilled on demand by Amazon — no waiting, no hassle, ships worldwide.
-            </div>
-          </div>
-        </div>
-
-        <div className="shop-grid reveal">
-          {products.map((prod, idx) => (
-            <div
-              className="product-card"
-              key={idx}
-              onMouseMove={handleCardTilt}
-              onMouseLeave={handleCardReset}
-            >
-              <div className="product-cover" style={{ position: "relative" }}>
-                <div style={{ position: "absolute", inset: 0, background: prod.coverBg }}></div>
-                {prod.badge && <span className="product-badge">{prod.badge}</span>}
-                {prod.coming && (
-                  <div className="coming-overlay">
-                    <span className="coming-label">Coming 2026</span>
-                  </div>
-                )}
-                <div className="product-cover-title" style={prod.coming ? { opacity: 0.35 } : undefined}>
-                  {prod.coverTitle.split("\n").map((line, i) => (
-                    <React.Fragment key={i}>
-                      {line}
-                      <br />
-                    </React.Fragment>
-                  ))}
-                </div>
-                <div className="product-cover-author" style={prod.coming ? { opacity: 0.25 } : { opacity: 0.55 }}>
-                  {prod.coverAuthor}
-                </div>
-              </div>
-              <div className="product-body">
-                <div className="product-cat">{prod.cat}</div>
-                <div className="product-title">{prod.title}</div>
-                <p className="product-desc">{prod.desc}</p>
-                <div className="product-formats">
-                  {prod.formats.map((fmt, fIdx) => (
-                    <div className="format-row" key={fIdx}>
-                      <div>
-                        <div className="format-type">{fmt.type}</div>
-                        <div className="format-price">{fmt.price}</div>
-                      </div>
-                      <a
-                        href={fmt.disabled ? undefined : fmt.href}
-                        className={`format-btn ${fmt.solid ? "solid" : "outline-btn"} ${fmt.disabled ? "disabled" : ""}`}
-                        target={fmt.href.startsWith("http") ? "_blank" : undefined}
-                        rel={fmt.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                      >
-                        {fmt.cta}
-                      </a>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="shop-trust reveal">
-          <div className="trust-item">
-            <div className="trust-icon">⚡</div>
-            <div>
-              <div className="trust-title">Instant Digital Delivery</div>
-              <div className="trust-desc">PDFs delivered to your inbox immediately after purchase — no waiting required.</div>
-            </div>
-          </div>
-          <div className="trust-item">
-            <div className="trust-icon">🌍</div>
-            <div>
-              <div className="trust-title">Ships Worldwide</div>
-              <div className="trust-desc">Physical copies printed and shipped globally on demand via Amazon.</div>
-            </div>
-          </div>
-          <div className="trust-item">
-            <div className="trust-icon">✦</div>
-            <div>
-              <div className="trust-title">Satisfaction Guaranteed</div>
-              <div className="trust-desc">Digital products — full refund within 7 days if not satisfied. No questions asked.</div>
-            </div>
-          </div>
+          <h2 className="s-title">
+            Words that<br /><em>stay with you.</em>
+          </h2>
+          <p className="s-body" style={{ maxWidth: "none", marginBottom: "2.5rem" }}>
+            Every product was built to do one thing — move you further along the journey from where you are to where you were designed to be. Digital books delivered instantly. Physical copies shipped worldwide.
+          </p>
+          <a href="/books" className="btn-primary">Browse Books &amp; Products →</a>
         </div>
       </section>
 
@@ -1201,116 +1146,157 @@ export default function App() {
         </div>
 
         <div className="reveal reveal-d1">
-          {formSubmitted ? (
+          {/* Two-card contact type selector */}
+          {!contactType && !formSubmitted && (
+            <div className="contact-type-grid">
+              <div
+                className="contact-type-card"
+                onClick={() => setContactType("ministry")}
+                onMouseMove={handleCardTilt}
+                onMouseLeave={handleCardReset}
+              >
+                <div className="contact-type-icon">✦</div>
+                <div className="contact-type-title">Ministry &amp; Speaking</div>
+                <div className="contact-type-desc">
+                  Church services, conferences, retreats, prophetic ministry, The Foundry, books, media &amp; general enquiries
+                </div>
+                <div className="contact-type-cta">Fill out the form →</div>
+              </div>
+              <a
+                href="https://cal.com/michael-aladejana-j0rt6p"
+                className="contact-type-card"
+                target="_blank"
+                rel="noopener noreferrer"
+                onMouseMove={handleCardTilt}
+                onMouseLeave={handleCardReset}
+                style={{ textDecoration: "none" }}
+              >
+                <div className="contact-type-icon">✦</div>
+                <div className="contact-type-title">Corporate &amp; Advisory</div>
+                <div className="contact-type-desc">
+                  Ascentry Advisory — executive development, change management, culture &amp; human capital, corporate strategy
+                </div>
+                <div className="contact-type-cta">Book a consultation →</div>
+              </a>
+            </div>
+          )}
+
+          {/* Ministry & Speaking Form (Google Forms submission) */}
+          {contactType === "ministry" && !formSubmitted && (
+            <>
+              <button
+                className="contact-back-btn"
+                onClick={() => setContactType(null)}
+                type="button"
+              >
+                ← Back to options
+              </button>
+              <form className="contact-form" onSubmit={handleFormSubmit}>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label className="form-label">First Name</label>
+                    <input
+                      type="text"
+                      name="firstName"
+                      className="form-input"
+                      placeholder="First name"
+                      required
+                      value={formData.firstName}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Last Name</label>
+                    <input
+                      type="text"
+                      name="lastName"
+                      className="form-input"
+                      placeholder="Last name"
+                      required
+                      value={formData.lastName}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Email Address</label>
+                  <input
+                    type="email"
+                    name="email"
+                    className="form-input"
+                    placeholder="your@email.com"
+                    required
+                    value={formData.email}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Organisation or Church</label>
+                  <input
+                    type="text"
+                    name="organisation"
+                    className="form-input"
+                    placeholder="Your organisation, church or company"
+                    value={formData.organisation}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">I am reaching out about</label>
+                  <select
+                    name="enquiry"
+                    className="form-select"
+                    required
+                    value={formData.enquiry}
+                    onChange={handleInputChange}
+                  >
+                    <option value="">Select an option</option>
+                    <optgroup label="Ministry &amp; Speaking">
+                      <option>Ministry Speaking — Church / Conference / Retreat</option>
+                      <option>Corporate Keynote Speaking</option>
+                      <option>Prophetic Ministry Invitation</option>
+                    </optgroup>
+                    <optgroup label="The Foundry">
+                      <option>The Foundry Cohort — Join / Learn More</option>
+                      <option>Metamorphosis Conference 2026</option>
+                      <option>From Potential to Purpose Course</option>
+                    </optgroup>
+                    <optgroup label="Other">
+                      <option>Books &amp; Products</option>
+                      <option>Media &amp; Press Enquiry</option>
+                      <option>General Enquiry</option>
+                    </optgroup>
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Your Message</label>
+                  <textarea
+                    name="message"
+                    className="form-textarea"
+                    placeholder="Tell me about your need, opportunity or invitation..."
+                    required
+                    value={formData.message}
+                    onChange={handleInputChange}
+                  ></textarea>
+                </div>
+                <p className="form-fine">
+                  All enquiries are treated with complete confidentiality. We respond within 2 business days.
+                </p>
+                <button type="submit" className="btn-submit">
+                  Send Message
+                </button>
+              </form>
+            </>
+          )}
+
+          {/* Success confirmation */}
+          {formSubmitted && (
             <div className="form-success">
               <h3>Thank you for your enquiry.</h3>
               <p style={{ marginTop: "1rem", fontSize: "0.9rem" }}>
                 We have received your message and will respond within 2 business days.
               </p>
             </div>
-          ) : (
-            <form className="contact-form" onSubmit={handleFormSubmit}>
-              <input type="hidden" name="form-name" value="contact" />
-              <div className="form-row">
-                <div className="form-group">
-                  <label className="form-label">First Name</label>
-                  <input
-                    type="text"
-                    name="firstName"
-                    className="form-input"
-                    placeholder="First name"
-                    required
-                    value={formData.firstName}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="form-label">Last Name</label>
-                  <input
-                    type="text"
-                    name="lastName"
-                    className="form-input"
-                    placeholder="Last name"
-                    required
-                    value={formData.lastName}
-                    onChange={handleInputChange}
-                  />
-                </div>
-              </div>
-              <div className="form-group">
-                <label className="form-label">Email Address</label>
-                <input
-                  type="email"
-                  name="email"
-                  className="form-input"
-                  placeholder="your@email.com"
-                  required
-                  value={formData.email}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="form-group">
-                <label className="form-label">Organisation or Church</label>
-                <input
-                  type="text"
-                  name="organisation"
-                  className="form-input"
-                  placeholder="Your organisation, church or company"
-                  value={formData.organisation}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="form-group">
-                <label className="form-label">I am reaching out about</label>
-                <select
-                  name="enquiry"
-                  className="form-select"
-                  required
-                  value={formData.enquiry}
-                  onChange={handleInputChange}
-                >
-                  <option value="">Select an option</option>
-                  <optgroup label="Ministry &amp; Speaking">
-                    <option>Ministry Speaking — Church / Conference / Retreat</option>
-                    <option>Corporate Keynote Speaking</option>
-                    <option>Prophetic Ministry Invitation</option>
-                  </optgroup>
-                  <optgroup label="Corporate &amp; Advisory">
-                    <option>Ascentry Advisory — Executive Development</option>
-                    <option>Ascentry Advisory — Change Management</option>
-                    <option>Ascentry Advisory — Culture &amp; Human Capital</option>
-                    <option>Ascentry Advisory — General Enquiry</option>
-                  </optgroup>
-                  <optgroup label="The Foundry">
-                    <option>The Foundry Cohort — Join / Learn More</option>
-                    <option>Metamorphosis Conference 2026</option>
-                    <option>From Potential to Purpose Course</option>
-                  </optgroup>
-                  <optgroup label="Other">
-                    <option>Books &amp; Products</option>
-                    <option>Media &amp; Press Enquiry</option>
-                    <option>General Enquiry</option>
-                  </optgroup>
-                </select>
-              </div>
-              <div className="form-group">
-                <label className="form-label">Your Message</label>
-                <textarea
-                  name="message"
-                  className="form-textarea"
-                  placeholder="Tell me about your need, opportunity or invitation..."
-                  required
-                  value={formData.message}
-                  onChange={handleInputChange}
-                ></textarea>
-              </div>
-              <p className="form-fine">
-                All enquiries are treated with complete confidentiality. We respond within 2 business days.
-              </p>
-              <button type="submit" className="btn-submit">
-                Send Message
-              </button>
-            </form>
           )}
         </div>
       </section>
