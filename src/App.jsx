@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import portraitImg from "./assets/portrait.png";
 import "./App.css";
+import gallery1 from "./assets/gallery-1.jpg";
+import gallery2 from "./assets/gallery-2.jpg";
+import gallery3 from "./assets/gallery-3.jpg";
+import gallery4 from "./assets/gallery-4.jpg";
 
 // Data declarations matching the exact content of the reference site
 const nav = [
@@ -179,13 +183,10 @@ const press = [
 ];
 
 const gallery = [
-  { label: "Featured moment", desc: "Add primary hero photo here", featured: true },
-  { label: "Speaking — corporate event", desc: "", featured: false },
-  { label: "Ministry — Sunday service", desc: "", featured: false },
-  { label: "Metamorphosis Conference", desc: "", featured: false },
-  { label: "Foundry cohort session", desc: "", featured: false },
-  { label: "International ministry", desc: "", featured: false },
-  { label: "Author — book signing", desc: "", featured: false }
+  { label: "Keynote Address", desc: "Global Leadership Summit", image: gallery1, featured: true },
+  { label: "Ministry & Commissioning", desc: "Sunday Service", image: gallery4, featured: false },
+  { label: "Corporate Advisory", desc: "Boardroom Strategy Session", image: gallery2, featured: false },
+  { label: "Transformational Leadership", desc: "The Foundry Cohort", image: gallery3, featured: false }
 ];
 
 const products = [
@@ -197,8 +198,8 @@ const products = [
     title: "From Potential to Purpose",
     desc: "Five transformational modules that move you from buried potential to expressed, legacy-building purpose. The Foundry Leadership Institute flagship curriculum.",
     formats: [
-      { type: "Digital PDF — Instant delivery", price: "$35.00", cta: "Buy Digital", href: "https://gumroad.com", disabled: false, solid: true },
-      { type: "Physical Copy — Ships Worldwide", price: "$49.00", cta: "Buy Physical", href: "https://kdp.amazon.com", disabled: false, solid: false }
+      { type: "Digital PDF — Instant delivery", price: "$35.00", cta: "Buy Digital", href: "https://michaeladejana.gumroad.com/l/tysgx", disabled: false, solid: true },
+      { type: "Physical Copy — Ships Worldwide", price: "$49.00", cta: "Coming Soon", href: "#", disabled: true, solid: false }
     ],
     coverBg: "linear-gradient(160deg,#7A1E2E 0%,#2B0A14 50%,#0E0A08 100%)",
     coming: false
@@ -211,11 +212,11 @@ const products = [
     title: "The Brand Builder Journal",
     desc: "90 days of structured daily entries, weekly reviews and monthly milestone letters — for entrepreneurs and marketplace leaders building something that lasts.",
     formats: [
-      { type: "Digital PDF — Print at Home", price: "$18.00", cta: "Buy Digital", href: "https://gumroad.com", disabled: false, solid: true },
-      { type: "Physical Copy — Ships Worldwide", price: "$45.00", cta: "Buy Physical", href: "https://kdp.amazon.com", disabled: false, solid: false }
+      { type: "Digital PDF — Print at Home", price: "$18.00", cta: "Coming Soon", href: "#", disabled: true, solid: true },
+      { type: "Physical Copy — Ships Worldwide", price: "$45.00", cta: "Coming Soon", href: "#", disabled: true, solid: false }
     ],
     coverBg: "linear-gradient(160deg,#1D6B4F 0%,#0A3D28 50%,#041A10 100%)",
-    coming: false
+    coming: true
   },
   {
     badge: "",
@@ -1010,21 +1011,28 @@ export default function App() {
                     key={idx}
                     className={`gallery-item ${gal.featured ? "featured" : ""}`}
                   >
-                    <div className="gallery-item-label">
-                      {gal.label}
-                      {gal.desc && (
-                        <>
-                          <br />
-                          {gal.desc}
-                        </>
-                      )}
-                    </div>
+                    {gal.image ? (
+                      <>
+                        <img src={gal.image} alt={gal.label} />
+                        <div className="gallery-item-info">
+                          <h4 className="gallery-item-title">{gal.label}</h4>
+                          <span className="gallery-item-desc">{gal.desc}</span>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="gallery-item-label">
+                        {gal.label}
+                        {gal.desc && (
+                          <>
+                            <br />
+                            {gal.desc}
+                          </>
+                        )}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
-              <p style={{ fontSize: ".8rem", color: "rgba(247,243,238,.3)", marginTop: "1.5rem" }}>
-                Replace gallery placeholders with real photos. Recommended: mix of ministry, speaking, corporate and personal moments.
-              </p>
             </>
           )}
         </div>

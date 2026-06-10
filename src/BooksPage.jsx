@@ -10,8 +10,8 @@ const products = [
     title: "From Potential to Purpose",
     desc: "Five transformational modules that move you from buried potential to expressed, legacy-building purpose. The Foundry Leadership Institute flagship curriculum.",
     formats: [
-      { type: "Digital PDF — Instant delivery", price: "$35.00", cta: "Buy Digital", href: "https://gumroad.com", disabled: false, solid: true },
-      { type: "Physical Copy — Ships Worldwide", price: "$49.00", cta: "Buy Physical", href: "https://kdp.amazon.com", disabled: false, solid: false }
+      { type: "Digital PDF — Instant delivery", price: "$35.00", cta: "Buy Digital", href: "https://michaeladejana.gumroad.com/l/tysgx", disabled: false, solid: true },
+      { type: "Physical Copy — Ships Worldwide", price: "$49.00", cta: "Coming Soon", href: "#", disabled: true, solid: false }
     ],
     coverBg: "linear-gradient(160deg,#7A1E2E 0%,#2B0A14 50%,#0E0A08 100%)",
     coming: false
@@ -24,11 +24,11 @@ const products = [
     title: "The Brand Builder Journal",
     desc: "90 days of structured daily entries, weekly reviews and monthly milestone letters — for entrepreneurs and marketplace leaders building something that lasts.",
     formats: [
-      { type: "Digital PDF — Print at Home", price: "$18.00", cta: "Buy Digital", href: "https://gumroad.com", disabled: false, solid: true },
-      { type: "Physical Copy — Ships Worldwide", price: "$45.00", cta: "Buy Physical", href: "https://kdp.amazon.com", disabled: false, solid: false }
+      { type: "Digital PDF — Print at Home", price: "$18.00", cta: "Coming Soon", href: "#", disabled: true, solid: true },
+      { type: "Physical Copy — Ships Worldwide", price: "$45.00", cta: "Coming Soon", href: "#", disabled: true, solid: false }
     ],
     coverBg: "linear-gradient(160deg,#1D6B4F 0%,#0A3D28 50%,#041A10 100%)",
-    coming: false
+    coming: true
   },
   {
     badge: "",
