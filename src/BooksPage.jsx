@@ -59,9 +59,10 @@ export default function BooksPage() {
     const y = e.clientY - rect.top;
     const xc = rect.width / 2;
     const yc = rect.height / 2;
-    const rotateX = ((yc - y) / yc) * 8;
-    const rotateY = ((x - xc) / xc) * 8;
-    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+    // Cap tilt angle at 2 degrees for a minimal effect
+    const rotateX = ((yc - y) / yc) * 2;
+    const rotateY = ((x - xc) / xc) * 2;
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.005, 1.005, 1.005)`;
   };
 
   const handleCardReset = (e) => {

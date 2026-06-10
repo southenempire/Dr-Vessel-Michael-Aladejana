@@ -441,10 +441,10 @@ export default function App() {
     const y = e.clientY - rect.top;
     const xc = rect.width / 2;
     const yc = rect.height / 2;
-    // Cap tilt angle at 8 degrees
-    const rotateX = ((yc - y) / yc) * 8;
-    const rotateY = ((x - xc) / xc) * 8;
-    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+    // Cap tilt angle at 2 degrees for a minimal effect
+    const rotateX = ((yc - y) / yc) * 2;
+    const rotateY = ((x - xc) / xc) * 2;
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.005, 1.005, 1.005)`;
   };
 
   const handleCardReset = (e) => {
@@ -638,9 +638,9 @@ export default function App() {
                 className="hero-portrait-img"
                 style={{
                   position: "absolute",
-                  bottom: "-12%",
+                  bottom: "-15%",
                   left: "50%",
-                  transform: "translateX(-50%) scale(1.35)",
+                  transform: "translateX(-50%) scale(1.18)",
                   transformOrigin: "center bottom",
                   height: "100%",
                   width: "auto",
