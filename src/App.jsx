@@ -128,7 +128,7 @@ const events = [
     location: "📍 Houston, Texas",
     desc: "Three days of transformation — Friday through Sunday morning. Speakers, workshops and activation sessions for leaders at every stage of their journey. The Foundry Leadership Institute flagship annual event.",
     cta: "Register Interest",
-    href: "#contact",
+    href: "/contact",
     external: false
   },
   {
@@ -161,7 +161,7 @@ const events = [
     location: "📍 International",
     desc: "Dr. Michael is available to minister at churches, retreats, leadership conferences, and special services worldwide. He brings the Word with authority, precision, and a prophetic edge that shifts atmospheres.",
     cta: "Invite Dr. Michael",
-    href: "#contact",
+    href: "/contact",
     external: false
   }
 ];
@@ -201,7 +201,7 @@ const products = [
       { type: "Digital PDF — Instant delivery", price: "$35.00", cta: "Buy Digital", href: "https://michaeladejana.gumroad.com/l/tysgx", disabled: false, solid: true },
       { type: "Physical Copy — Ships Worldwide", price: "$49.00", cta: "Coming Soon", href: "#", disabled: true, solid: false }
     ],
-    coverBg: "linear-gradient(160deg,#2a5d8b 0%,#1e466b 50%,#0d0d0d 100%)",
+    coverBg: "linear-gradient(160deg,#7A1E2E 0%,#2B0A14 50%,#0E0A08 100%)",
     coming: false
   },
   {
@@ -226,7 +226,7 @@ const products = [
     title: "Next Title — To Be Announced",
     desc: "The next publication from Dr. Michael Aladejana is in development. Join the list for early access, launch pricing and a personal note from the author.",
     formats: [
-      { type: "Pre-launch notification", price: "Free to join", cta: "Notify Me", href: "#contact", disabled: false, solid: true },
+      { type: "Pre-launch notification", price: "Free to join", cta: "Notify Me", href: "/contact", disabled: false, solid: true },
       { type: "Digital & Physical", price: "TBA", cta: "Coming Soon", href: "#", disabled: true, solid: false }
     ],
     coverBg: "linear-gradient(160deg,#2C2060 0%,#14103A 60%,#080608 100%)",
@@ -522,8 +522,7 @@ export default function App() {
     }));
   };
 
-  // ─── Google Forms Config (placeholder) ───
-  // Replace these with your actual Google Form URL and entry IDs
+  // ─── Google Forms Config ───
   const GOOGLE_FORM_CONFIG = {
     actionUrl: "https://docs.google.com/forms/d/e/1FAIpQLSfcpWpeF9EW7qIsSPAk8ajvH4lW2NNC_1Hd85Idc4lb2jxoEg/formResponse",
     fields: {
@@ -538,7 +537,6 @@ export default function App() {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    // Use hidden iframe + form POST — the most reliable cross-origin Google Forms method
     const iframeName = "hidden_gform_iframe";
     let iframe = document.getElementById(iframeName);
     if (!iframe) {
@@ -562,7 +560,6 @@ export default function App() {
     });
     document.body.appendChild(form);
     form.submit();
-    // Clean up the temporary form element
     document.body.removeChild(form);
     setFormSubmitted(true);
   };
@@ -588,7 +585,7 @@ export default function App() {
           ))}
         </ul>
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <a href="#contact" className="nav-cta" onClick={() => setIsNavOpen(false)}>
+          <a href="/contact" className="nav-cta" onClick={() => setIsNavOpen(false)}>
             Book Dr. Michael
           </a>
           <div
@@ -637,12 +634,12 @@ export default function App() {
           </p>
           <div className="hero-actions">
             <a href="#about" className="btn-primary">Discover the Full Story</a>
-            <a href="#contact" className="btn-ghost">Book an Engagement</a>
+            <a href="/contact" className="btn-ghost">Book an Engagement</a>
           </div>
         </div>
         <div className="hero-right">
           <div className="hero-img-wrap">
-            <div className="hero-img-placeholder" style={{ position: "relative", overflow: "hidden", background: "linear-gradient(145deg, #2a5d8b, #1e466b, #0d0d0d)" }}>
+            <div className="hero-img-placeholder" style={{ position: "relative", overflow: "hidden", background: "linear-gradient(145deg, #8a3a4e, #5c2235, #3a1520)" }}>
               <Interactive3DCanvas />
               <img
                 src={portraitImg}
@@ -734,7 +731,7 @@ export default function App() {
             ))}
           </div>
           <div style={{ marginTop: "2.5rem", display: "flex", gap: ".875rem", flexWrap: "wrap" }}>
-            <a href="#contact" className="btn-primary">Work with Dr. Michael</a>
+            <a href="/contact" className="btn-primary">Work with Dr. Michael</a>
             <a href="#ministry" className="btn-ghost">Ministry Work</a>
           </div>
         </div>
@@ -880,7 +877,7 @@ export default function App() {
             <div className="speaking-note">
               Dr. Michael speaks to <strong>both corporate and ministry audiences</strong> — bringing the same depth and authority to every engagement. He tailors every message to the specific room, need, and moment.
             </div>
-            <a href="#contact" className="btn-ivory">Enquire About Speaking</a>
+            <a href="/contact" className="btn-ivory">Enquire About Speaking</a>
           </div>
         </div>
       </section>
@@ -1003,7 +1000,7 @@ export default function App() {
                   <div className="press-date">{pr.date}</div>
                 </div>
               ))}
-              <a href="#contact" className="press-item" style={{ textDecoration: "none" }}>
+              <a href="/contact" className="press-item" style={{ textDecoration: "none" }}>
                 <div className="press-outlet">Media &amp; Press</div>
                 <div className="press-title" style={{ fontWeight: 500 }}>
                   For press enquiries, interview requests and media features contact our team
@@ -1103,8 +1100,8 @@ export default function App() {
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section className="site-section contact-section" id="contact">
+      {/* Contact CTA Banner */}
+      <section className="site-section contact-cta-banner" id="contact">
         <div className="reveal">
           <div className="s-eyebrow">
             <div className="s-line" style={{ background: "var(--light-gold)" }}></div>
@@ -1113,214 +1110,14 @@ export default function App() {
           <h2 className="s-title">
             Let&#x27;s build<br /><em>together.</em>
           </h2>
-          <p className="contact-desc">
+          <p className="contact-desc" style={{ color: "var(--muted)" }}>
             Whether you are inviting Dr. Michael to speak at your church or conference, engaging Ascentry Advisory for corporate work, joining The Foundry, or purchasing a book — the conversation starts here.
           </p>
-          <div className="contact-lines">
-            <a href="mailto:michael@michaelaladejana.com" className="contact-line">
-              <div className="contact-line-dash"></div>
-              michael@michaelaladejana.com
-            </a>
-            <a
-              href="https://ascentryadvisory.com"
-              className="contact-line"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <div className="contact-line-dash"></div>
-              ascentryadvisory.com
-            </a>
-            <a
-              href="https://thefoundryleadership.com"
-              className="contact-line"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <div className="contact-line-dash"></div>
-              thefoundryleadership.com
-            </a>
-          </div>
-          <div className="contact-platforms">
-            <div className="cp-label">Platforms</div>
-            <div className="cp-links">
-              <a
-                href="https://ascentryadvisory.com"
-                className="cp-link"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div className="cp-link-dot"></div>
-                Ascentry Advisory — Corporate &amp; Organisational
-              </a>
-              <a
-                href="https://thefoundryleadership.com"
-                className="cp-link"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div className="cp-link-dot"></div>
-                The Foundry Leadership Institute — Personal Development
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div className="reveal reveal-d1">
-          {/* Two-card contact type selector */}
-          {!contactType && !formSubmitted && (
-            <div className="contact-type-grid">
-              <div
-                className="contact-type-card"
-                onClick={() => setContactType("ministry")}
-                onMouseMove={handleCardTilt}
-                onMouseLeave={handleCardReset}
-              >
-                <div className="contact-type-icon">✦</div>
-                <div className="contact-type-title">Ministry &amp; Speaking</div>
-                <div className="contact-type-desc">
-                  Church services, conferences, retreats, prophetic ministry, The Foundry, books, media &amp; general enquiries
-                </div>
-                <div className="contact-type-cta">Fill out the form →</div>
-              </div>
-              <a
-                href="https://cal.com/michael-aladejana-j0rt6p"
-                className="contact-type-card"
-                target="_blank"
-                rel="noopener noreferrer"
-                onMouseMove={handleCardTilt}
-                onMouseLeave={handleCardReset}
-                style={{ textDecoration: "none" }}
-              >
-                <div className="contact-type-icon">✦</div>
-                <div className="contact-type-title">Corporate &amp; Advisory</div>
-                <div className="contact-type-desc">
-                  Ascentry Advisory — executive development, change management, culture &amp; human capital, corporate strategy
-                </div>
-                <div className="contact-type-cta">Book a consultation →</div>
-              </a>
-            </div>
-          )}
-
-          {/* Ministry & Speaking Form (Google Forms submission) */}
-          {contactType === "ministry" && !formSubmitted && (
-            <>
-              <button
-                className="contact-back-btn"
-                onClick={() => setContactType(null)}
-                type="button"
-              >
-                ← Back to options
-              </button>
-              <form className="contact-form" onSubmit={handleFormSubmit}>
-                <div className="form-row">
-                  <div className="form-group">
-                    <label className="form-label">First Name</label>
-                    <input
-                      type="text"
-                      name="firstName"
-                      className="form-input"
-                      placeholder="First name"
-                      required
-                      value={formData.firstName}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">Last Name</label>
-                    <input
-                      type="text"
-                      name="lastName"
-                      className="form-input"
-                      placeholder="Last name"
-                      required
-                      value={formData.lastName}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                </div>
-                <div className="form-group">
-                  <label className="form-label">Email Address</label>
-                  <input
-                    type="email"
-                    name="email"
-                    className="form-input"
-                    placeholder="your@email.com"
-                    required
-                    value={formData.email}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="form-label">Organisation or Church</label>
-                  <input
-                    type="text"
-                    name="organisation"
-                    className="form-input"
-                    placeholder="Your organisation, church or company"
-                    value={formData.organisation}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="form-label">I am reaching out about</label>
-                  <select
-                    name="enquiry"
-                    className="form-select"
-                    required
-                    value={formData.enquiry}
-                    onChange={handleInputChange}
-                  >
-                    <option value="">Select an option</option>
-                    <optgroup label="Ministry & Speaking">
-                      <option value="Ministry speaking - Church/Conference/ retreat">Ministry Speaking — Church / Conference / Retreat</option>
-                      <option value="Corporate keynote speaking">Corporate Keynote Speaking</option>
-                      <option value="Prophetic ministry invitation">Prophetic Ministry Invitation</option>
-                    </optgroup>
-                    <optgroup label="The Foundry">
-                      <option value="The foundation cohort - join/learn more">The Foundry Cohort — Join / Learn More</option>
-                      <option value="Metamorphosis Conference 2026">Metamorphosis Conference 2026</option>
-                      <option value="From potential to purpose course">From Potential to Purpose Course</option>
-                    </optgroup>
-                    <optgroup label="Other">
-                      <option value="Books & Products">Books & Products</option>
-                      <option value="Media & Press Enquiry">Media & Press Enquiry</option>
-                      <option value="General Enquiry">General Enquiry</option>
-                    </optgroup>
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label className="form-label">Your Message</label>
-                  <textarea
-                    name="message"
-                    className="form-textarea"
-                    placeholder="Tell me about your need, opportunity or invitation..."
-                    required
-                    value={formData.message}
-                    onChange={handleInputChange}
-                  ></textarea>
-                </div>
-                <p className="form-fine">
-                  All enquiries are treated with complete confidentiality. We respond within 2 business days.
-                </p>
-                <button type="submit" className="btn-submit">
-                  Send Message
-                </button>
-              </form>
-            </>
-          )}
-
-          {/* Success confirmation */}
-          {formSubmitted && (
-            <div className="form-success">
-              <h3>Thank you for your enquiry.</h3>
-              <p style={{ marginTop: "1rem", fontSize: "0.9rem" }}>
-                We have received your message and will respond within 2 business days.
-              </p>
-            </div>
-          )}
+          <a href="/contact" className="btn-primary" style={{ marginTop: "2rem", display: "inline-block", fontSize: "1.05rem" }}>
+            Start a Conversation →
+          </a>
         </div>
       </section>
-
       {/* Footer */}
       <footer className="site-footer">
         <div className="footer-top">
@@ -1341,7 +1138,7 @@ export default function App() {
               <li><a href="#events">Events</a></li>
               <li><a href="#media">Media</a></li>
               <li><a href="#shop">Shop</a></li>
-              <li><a href="#contact">Contact</a></li>
+              <li><a href="/contact">Contact</a></li>
             </ul>
           </div>
           <div>
@@ -1379,10 +1176,10 @@ export default function App() {
             <div className="footer-col-title">Contact</div>
             <ul className="footer-links">
               <li><a href="mailto:michael@michaelaladejana.com">michael@michaelaladejana.com</a></li>
-              <li><a href="#contact">Book Dr. Michael</a></li>
-              <li><a href="#contact">Ministry Invitation</a></li>
-              <li><a href="#contact">Media &amp; Press</a></li>
-              <li><a href="#contact">Speaking Enquiry</a></li>
+              <li><a href="/contact">Book Dr. Michael</a></li>
+              <li><a href="/contact">Ministry Invitation</a></li>
+              <li><a href="/contact">Media &amp; Press</a></li>
+              <li><a href="/contact">Speaking Enquiry</a></li>
             </ul>
           </div>
         </div>

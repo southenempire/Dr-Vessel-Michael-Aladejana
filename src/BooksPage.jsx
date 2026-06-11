@@ -13,7 +13,7 @@ const products = [
       { type: "Digital PDF — Instant delivery", price: "$35.00", cta: "Buy Digital", href: "https://michaeladejana.gumroad.com/l/tysgx", disabled: false, solid: true },
       { type: "Physical Copy — Ships Worldwide", price: "$49.00", cta: "Coming Soon", href: "#", disabled: true, solid: false }
     ],
-    coverBg: "linear-gradient(160deg,#2a5d8b 0%,#1e466b 50%,#0d0d0d 100%)",
+    coverBg: "linear-gradient(160deg,#7A1E2E 0%,#2B0A14 50%,#0E0A08 100%)",
     coming: false
   },
   {
@@ -38,7 +38,7 @@ const products = [
     title: "Next Title — To Be Announced",
     desc: "The next publication from Dr. Michael Aladejana is in development. Join the list for early access, launch pricing and a personal note from the author.",
     formats: [
-      { type: "Pre-launch notification", price: "Free to join", cta: "Notify Me", href: "/#contact", disabled: false, solid: true },
+      { type: "Pre-launch notification", price: "Free to join", cta: "Notify Me", href: "/contact", disabled: false, solid: true },
       { type: "Digital & Physical", price: "TBA", cta: "Coming Soon", href: "#", disabled: true, solid: false }
     ],
     coverBg: "linear-gradient(160deg,#2C2060 0%,#14103A 60%,#080608 100%)",
@@ -111,7 +111,7 @@ export default function BooksPage() {
           </li>
         </ul>
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <a href="/#contact" className="nav-cta" onClick={() => setIsNavOpen(false)}>
+          <a href="/contact" className="nav-cta" onClick={() => setIsNavOpen(false)}>
             Book Dr. Michael
           </a>
           <div
@@ -254,7 +254,7 @@ export default function BooksPage() {
               <li><a href="/#speaking">Speaking</a></li>
               <li><a href="/books" style={{ color: "var(--light-gold)" }}>Books &amp; Products</a></li>
               <li><a href="/#media">Media</a></li>
-              <li><a href="/#contact">Contact</a></li>
+              <li><a href="/contact">Contact</a></li>
             </ul>
           </div>
           <div>
@@ -291,10 +291,10 @@ export default function BooksPage() {
             <div className="footer-col-title">Contact</div>
             <ul className="footer-links">
               <li><a href="mailto:michael@michaelaladejana.com">michael@michaelaladejana.com</a></li>
-              <li><a href="/#contact">Book Dr. Michael</a></li>
-              <li><a href="/#contact">Ministry Invitation</a></li>
-              <li><a href="/#contact">Media &amp; Press</a></li>
-              <li><a href="/#contact">Speaking Enquiry</a></li>
+              <li><a href="/contact">Book Dr. Michael</a></li>
+              <li><a href="/contact">Ministry Invitation</a></li>
+              <li><a href="/contact">Media &amp; Press</a></li>
+              <li><a href="/contact">Speaking Enquiry</a></li>
             </ul>
           </div>
         </div>
