@@ -116,6 +116,26 @@
   margin-bottom: 1.5rem;
 }
 
+/* Override light-on-dark colors for the ivory background info section */
+.contact-page-info .contact-line {
+  color: var(--muted);
+}
+.contact-page-info .contact-line:hover {
+  color: var(--burgundy);
+}
+.contact-page-info .contact-line-dash {
+  background: var(--gold);
+}
+.contact-page-info .cp-link {
+  color: var(--muted);
+}
+.contact-page-info .cp-link:hover {
+  color: var(--burgundy);
+}
+.contact-page-info .cp-link-dot {
+  background: var(--gold);
+}
+
 .contact-page-form-section {
   background: var(--burgundy);
   padding: 5rem;
