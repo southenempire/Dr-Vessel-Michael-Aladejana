@@ -201,7 +201,7 @@ const products = [
       { type: "Digital PDF — Instant delivery", price: "$35.00", cta: "Buy Digital", href: "https://michaeladejana.gumroad.com/l/tysgx", disabled: false, solid: true },
       { type: "Physical Copy — Ships Worldwide", price: "$49.00", cta: "Coming Soon", href: "#", disabled: true, solid: false }
     ],
-    coverBg: "linear-gradient(160deg,#7A1E2E 0%,#2B0A14 50%,#0E0A08 100%)",
+    coverBg: "linear-gradient(160deg,#2a5d8b 0%,#1e466b 50%,#0d0d0d 100%)",
     coming: false
   },
   {
@@ -525,14 +525,14 @@ export default function App() {
   // ─── Google Forms Config (placeholder) ───
   // Replace these with your actual Google Form URL and entry IDs
   const GOOGLE_FORM_CONFIG = {
-    actionUrl: "https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse",
+    actionUrl: "https://docs.google.com/forms/d/1s9fuMtesLER5a91cGmuoLWHbS8jrOhRQvmqIA0fa25s/formResponse",
     fields: {
-      firstName: "entry.XXXXXXXXXX",
-      lastName: "entry.XXXXXXXXXX",
-      email: "entry.XXXXXXXXXX",
-      organisation: "entry.XXXXXXXXXX",
-      enquiry: "entry.XXXXXXXXXX",
-      message: "entry.XXXXXXXXXX"
+      firstName: "entry.228730259",
+      lastName: "entry.1409036205",
+      email: "entry.2066182869",
+      organisation: "entry.1425259470",
+      enquiry: "entry.1071782066",
+      message: "entry.148796851"
     }
   };
 
@@ -630,7 +630,7 @@ export default function App() {
         </div>
         <div className="hero-right">
           <div className="hero-img-wrap">
-            <div className="hero-img-placeholder" style={{ position: "relative", overflow: "hidden", background: "linear-gradient(145deg, #8a3a4e, #5c2235, #3a1520)" }}>
+            <div className="hero-img-placeholder" style={{ position: "relative", overflow: "hidden", background: "linear-gradient(145deg, #2a5d8b, #1e466b, #0d0d0d)" }}>
               <Interactive3DCanvas />
               <img
                 src={portraitImg}

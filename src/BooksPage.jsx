@@ -13,7 +13,7 @@ const products = [
       { type: "Digital PDF — Instant delivery", price: "$35.00", cta: "Buy Digital", href: "https://michaeladejana.gumroad.com/l/tysgx", disabled: false, solid: true },
       { type: "Physical Copy — Ships Worldwide", price: "$49.00", cta: "Coming Soon", href: "#", disabled: true, solid: false }
     ],
-    coverBg: "linear-gradient(160deg,#7A1E2E 0%,#2B0A14 50%,#0E0A08 100%)",
+    coverBg: "linear-gradient(160deg,#2a5d8b 0%,#1e466b 50%,#0d0d0d 100%)",
     coming: false
   },
   {
