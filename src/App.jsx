@@ -525,7 +525,7 @@ export default function App() {
   // ─── Google Forms Config (placeholder) ───
   // Replace these with your actual Google Form URL and entry IDs
   const GOOGLE_FORM_CONFIG = {
-    actionUrl: "https://docs.google.com/forms/d/1s9fuMtesLER5a91cGmuoLWHbS8jrOhRQvmqIA0fa25s/formResponse",
+    actionUrl: "https://docs.google.com/forms/d/e/1FAIpQLSfcpWpeF9EW7qIsSPAk8ajvH4lW2NNC_1Hd85Idc4lb2jxoEg/formResponse",
     fields: {
       firstName: "entry.228730259",
       lastName: "entry.1409036205",
@@ -1260,19 +1260,19 @@ export default function App() {
                   >
                     <option value="">Select an option</option>
                     <optgroup label="Ministry &amp; Speaking">
-                      <option>Ministry Speaking — Church / Conference / Retreat</option>
-                      <option>Corporate Keynote Speaking</option>
-                      <option>Prophetic Ministry Invitation</option>
+                      <option value="Ministry speaking - Church/Conference/ retreat">Ministry Speaking — Church / Conference / Retreat</option>
+                      <option value="Corporate keynote speaking">Corporate Keynote Speaking</option>
+                      <option value="Prophetic ministry invitation">Prophetic Ministry Invitation</option>
                     </optgroup>
                     <optgroup label="The Foundry">
-                      <option>The Foundry Cohort — Join / Learn More</option>
-                      <option>Metamorphosis Conference 2026</option>
-                      <option>From Potential to Purpose Course</option>
+                      <option value="The foundation cohort - join/learn more">The Foundry Cohort — Join / Learn More</option>
+                      <option value="Metamorphosis Conference 2026">Metamorphosis Conference 2026</option>
+                      <option value="From potential to purpose course">From Potential to Purpose Course</option>
                     </optgroup>
                     <optgroup label="Other">
-                      <option>Books &amp; Products</option>
-                      <option>Media &amp; Press Enquiry</option>
-                      <option>General Enquiry</option>
+                      <option value="Books &amp; Products">Books &amp; Products</option>
+                      <option value="Media &amp; Press Enquiry">Media &amp; Press Enquiry</option>
+                      <option value="General Enquiry">General Enquiry</option>
                     </optgroup>
                   </select>
                 </div>
