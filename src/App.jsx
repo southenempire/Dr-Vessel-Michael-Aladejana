@@ -536,22 +536,34 @@ export default function App() {
     }
   };
 
-  const handleFormSubmit = async (e) => {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
-    // Build Google Forms submission data
-    const body = new FormData();
-    Object.entries(GOOGLE_FORM_CONFIG.fields).forEach(([key, entryId]) => {
-      body.append(entryId, formData[key]);
-    });
-    try {
-      await fetch(GOOGLE_FORM_CONFIG.actionUrl, {
-        method: "POST",
-        body,
-        mode: "no-cors" // Google Forms doesn't return CORS headers
-      });
-    } catch (_) {
-      // no-cors requests always succeed from the browser's perspective
+    // Use hidden iframe + form POST — the most reliable cross-origin Google Forms method
+    const iframeName = "hidden_gform_iframe";
+    let iframe = document.getElementById(iframeName);
+    if (!iframe) {
+      iframe = document.createElement("iframe");
+      iframe.id = iframeName;
+      iframe.name = iframeName;
+      iframe.style.display = "none";
+      document.body.appendChild(iframe);
     }
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = GOOGLE_FORM_CONFIG.actionUrl;
+    form.target = iframeName;
+    form.style.display = "none";
+    Object.entries(GOOGLE_FORM_CONFIG.fields).forEach(([key, entryId]) => {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = entryId;
+      input.value = formData[key];
+      form.appendChild(input);
+    });
+    document.body.appendChild(form);
+    form.submit();
+    // Clean up the temporary form element
+    document.body.removeChild(form);
     setFormSubmitted(true);
   };
 
@@ -1259,7 +1271,7 @@ export default function App() {
                     onChange={handleInputChange}
                   >
                     <option value="">Select an option</option>
-                    <optgroup label="Ministry &amp; Speaking">
+                    <optgroup label="Ministry & Speaking">
                       <option value="Ministry speaking - Church/Conference/ retreat">Ministry Speaking — Church / Conference / Retreat</option>
                       <option value="Corporate keynote speaking">Corporate Keynote Speaking</option>
                       <option value="Prophetic ministry invitation">Prophetic Ministry Invitation</option>
@@ -1270,8 +1282,8 @@ export default function App() {
                       <option value="From potential to purpose course">From Potential to Purpose Course</option>
                     </optgroup>
                     <optgroup label="Other">
-                      <option value="Books &amp; Products">Books &amp; Products</option>
-                      <option value="Media &amp; Press Enquiry">Media &amp; Press Enquiry</option>
+                      <option value="Books & Products">Books & Products</option>
+                      <option value="Media & Press Enquiry">Media & Press Enquiry</option>
                       <option value="General Enquiry">General Enquiry</option>
                     </optgroup>
                   </select>
